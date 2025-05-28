@@ -1,0 +1,65 @@
+# compiled output
+/dist
+/node_modules
+.idea/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+subscriptions.log
+
+# OS
+.DS_Store
+
+# Tests
+/coverage
+/coverage-e2e
+/coverage-nightly
+/coverage-ci
+/coverage-it
+/src/test/coverage
+/test/coverage-e2e
+/.nyc_output
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# dotenv environment variables file
+.env
+.env.test
+.env.docker
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Ignores homeserver.db file
+**/*.db
+
+# Ignores all scripts and files downloaded by the scripts and local build files
+.scripts/
+.build/
+.storage/
+.build/synapse/homeserver.yaml
