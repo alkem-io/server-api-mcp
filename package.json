@@ -17,7 +17,9 @@
   "dependencies": {
     "@alkemio/client-lib": "^0.35.0",
     "dotenv": "^16.5.0",
-    "mcp-framework": "^0.2.13"
+    "mcp-framework": "^0.2.13",
+    "graphql-request": "^6.1.0",
+    "graphql": "^16.8.1"
   },
   "devDependencies": {
     "@types/node": "^20.11.24",

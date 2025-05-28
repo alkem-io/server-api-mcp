@@ -17,6 +17,9 @@ const server = new MCPServer({
       }
     }
   }
+  // Tools are typically auto-discovered by the mcp-build process
+  // from the ./tools directory, so no explicit registration here is needed
+  // if tools are correctly exported from their files.
 });
 
 // Initialize Alkemio authentication before starting the server

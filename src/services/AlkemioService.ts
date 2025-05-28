@@ -4,15 +4,17 @@ import dotenv from 'dotenv';
 export class AlkemioService {
   private client: AlkemioClient;
   private isAuthenticated: boolean = false;
+  private apiToken: string | undefined; // Added to store the API token
+  private clientConfig: AlkemioClientConfig; // Added to store clientConfig
 
   constructor(config?: AlkemioClientConfig) {
     // Load environment variables
     dotenv.config();
     
     // Use provided config or create from environment variables
-    const clientConfig = config || createConfigUsingEnvVars();
+    this.clientConfig = config || createConfigUsingEnvVars(); // Store clientConfig
     
-    this.client = new AlkemioClient(clientConfig);
+    this.client = new AlkemioClient(this.clientConfig);
   }
 
   /**
@@ -24,6 +26,7 @@ export class AlkemioService {
       
       // Enable authentication
       await this.client.enableAuthentication();
+      this.apiToken = this.client.apiToken; // Store the API token
       
       // Validate the connection
       const serverVersion = await this.client.validateConnection();
@@ -52,6 +55,24 @@ export class AlkemioService {
    */
   isReady(): boolean {
     return this.isAuthenticated;
+  }
+
+  /**
+   * Get the API token if authenticated
+   */
+  getApiToken(): string | undefined {
+    if (!this.isAuthenticated) {
+      console.warn('Attempted to get API token before authentication.');
+      return undefined;
+    }
+    return this.apiToken;
+  }
+
+  /**
+   * Get the GraphQL API endpoint
+   */
+  getGraphqlEndpoint(): string | undefined {
+    return this.clientConfig.apiEndpointPrivateGraphql;
   }
 
   /**
