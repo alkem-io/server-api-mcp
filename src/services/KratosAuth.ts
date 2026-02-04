@@ -91,7 +91,7 @@ export class KratosAuthService {
 
       // Step 2: Submit credentials
       const submitResponse = await fetch(
-        `${this.config.kratosPublicUrl}/self-service/login`,
+        `${this.config.kratosPublicUrl}/self-service/login?flow=${flow.id}`,
         {
           method: 'POST',
           headers: {
