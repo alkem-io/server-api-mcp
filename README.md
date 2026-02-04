@@ -78,6 +78,100 @@ For development with auto-reload:
 npm run watch
 ```
 
+## Deployment
+
+### Docker
+
+Build and run the Docker container:
+
+```bash
+# Build the image
+docker build -t alkemio-mcp-server:latest .
+
+# Run the container
+docker run -p 1339:1339 \
+  -e API_ENDPOINT_PRIVATE_GRAPHQL=https://your-alkemio-instance.com/api/private/non-interactive/graphql \
+  -e AUTH_ADMIN_EMAIL=your-email@example.com \
+  -e AUTH_ADMIN_PASSWORD=your-password \
+  -e AUTH_ORY_KRATOS_PUBLIC_BASE_URL=https://your-alkemio-instance.com/ory/kratos/public/ \
+  alkemio-mcp-server:latest
+```
+
+### Kubernetes
+
+Deploy to Kubernetes using the provided manifests:
+
+```bash
+# Create secrets (update with your values)
+kubectl create secret generic alkemio-mcp-secrets \
+  --from-literal=api-endpoint-private-graphql=https://your-alkemio-instance.com/api/private/non-interactive/graphql \
+  --from-literal=auth-admin-email=your-email@example.com \
+  --from-literal=auth-admin-password=your-password \
+  --from-literal=auth-ory-kratos-public-base-url=https://your-alkemio-instance.com/ory/kratos/public/
+
+# Apply Kubernetes manifests
+kubectl apply -f k8s/
+
+# Check deployment status
+kubectl get pods -l app=alkemio-mcp
+kubectl logs -l app=alkemio-mcp
+```
+
+### Traefik Ingress
+
+The server includes Traefik middleware for secure access:
+
+```yaml
+# Example Ingress configuration
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: alkemio-mcp
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+spec:
+  rules:
+  - host: mcp.alkemio.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: alkemio-mcp
+            port:
+              number: 80
+```
+
+### Health Checks
+
+The server exposes the following endpoints:
+
+- `GET /health` - Full health check with status, version, uptime
+- `GET /healthz` - Simple liveness probe (K8s compatible)
+- `GET /ready` - Readiness probe (K8s compatible)
+- `GET /metrics` - Prometheus metrics
+
+Configure K8s probes:
+
+```yaml
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: 1339
+  initialDelaySeconds: 10
+  periodSeconds: 30
+
+readinessProbe:
+  httpGet:
+    path: /ready
+    port: 1339
+  initialDelaySeconds: 5
+  periodSeconds: 10
+```
+
 ## Architecture
 
 The server is built using:

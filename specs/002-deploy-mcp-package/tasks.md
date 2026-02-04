@@ -131,8 +131,12 @@ Polish: T023-T027
 - [x] T018 [P] Create client configuration docs at `/root/source/alkemio/server-api-mcp/docs/claude-code-config.md`
 - [x] T019 [P] Create LibreChat config docs at `/root/source/alkemio/server-api-mcp/docs/librechat-config.md`
 - [x] T020 [P] Create GitHub Copilot config docs at `/root/source/alkemio/server-api-mcp/docs/github-copilot-config.md`
-- [ ] T021 [P] Create MCP client connection test at `/root/source/alkemio/server-api-mcp/tests/mcp-client.test.ts`
-- [ ] T022 [P] Add integration test for all tools at `/root/source/alkemio/server-api-mcp/tests/tools-integration.test.ts`
+- [x] T021 [P] Create MCP client connection test at `/root/source/alkemio/server-api-mcp/tests/mcp-client.test.ts`
+  **Description**: Write integration test verifying Claude Code, LibreChat, and GitHub Copilot can connect to MCP server and discover tools. Use `mcp-client` library or raw HTTP to simulate client connections.
+  **Acceptance**: Test passes for all three clients, verifies tool discovery response
+- [x] T022 [P] Add integration test for all tools at `/root/source/alkemio/server-api-mcp/tests/tools-integration.test.ts`
+  **Description**: Execute each MCP tool via client SDK and verify successful response
+  **Acceptance**: All 25+ tools have at least one integration test
 
 ---
 
@@ -144,13 +148,17 @@ Polish: T023-T027
 
 ### Implementation Tasks
 
-- [ ] T023 Create logging configuration at `/root/source/alkemio/server-api-mcp/src/utils/logger.ts`
-- [ ] T023a Create OpenTelemetry configuration at `/root/source/alkemio/server-api-mcp/src/utils/otel.ts`
-- [ ] T023b Add tracing to GraphQL client at `/root/source/alkemio/server-api-mcp/src/services/AlkemioService.ts`
-- [ ] T024 Create metrics endpoint at `/root/source/alkemio/server-api-mcp/src/metrics.ts`
-- [ ] T025 Update README.md at `/root/source/alkemio/server-api-mcp/README.md` with deployment instructions
-- [ ] T026 Add health check endpoint at `/root/source/alkemio/server-api-mcp/src/health.ts`
-- [ ] T027 Update .env.example at `/root/source/alkemio/server-api-mcp/.env.example` with all required env vars
+- [x] T023 Create logging configuration at `/root/source/alkemio/server-api-mcp/src/utils/logger.ts`
+- [x] T023a Create OpenTelemetry configuration at `/root/source/alkemio/server-api-mcp/src/utils/otel.ts`
+  **Description**: Initialize OpenTelemetry with Jaeger/LightStep exporter. Configure trace propagation for MCP tool calls.
+  **Acceptance**: Spans created for each GraphQL operation, exported to configured collector
+- [x] T023b Add tracing to GraphQL client at `/root/source/alkemio/server-api-mcp/src/services/AlkemioService.ts`
+- [x] T024 Create metrics endpoint at `/root/source/alkemio/server-api-mcp/src/metrics.ts`
+- [x] T025 Update README.md at `/root/source/alkemio/server-api-mcp/README.md` with deployment instructions
+- [x] T026 Create health check endpoint at `/root/source/alkemio/server-api-mcp/src/health.ts`
+  **Description**: Implement `/health` endpoint returning JSON with status: "ok", version, uptime. Configure K8s liveness/readiness probes to hit this endpoint.
+  **Acceptance**: Returns 200 with JSON body; K8s probes configured to use it
+- [x] T027 Update .env.example at `/root/source/alkemio/server-api-mcp/.env.example` with all required env vars
 
 ---
 
@@ -159,13 +167,14 @@ Polish: T023-T027
 | Metric | Value |
 |--------|-------|
 | Total Tasks | 27 |
-| Test Framework Tasks | 4 (T001-T004) |
-| Foundational Tasks | 3 (T005-T007) |
-| US1 (Docker) Tasks | 5 (T008-T012) |
-| US2 (NPM) Tasks | 3 (T013-T015) |
-| US4 (Traefik) Tasks | 2 (T016-T017) |
-| US3 (Multi-Client) Tasks | 5 (T018-T022) |
-| Polish Tasks | 5 (T023-T027) |
+| Completed Tasks | 27 (100%) |
+| Test Framework Tasks | 4 (T001-T004) - COMPLETE |
+| Foundational Tasks | 3 (T005-T007) - COMPLETE |
+| US1 (Docker) Tasks | 5 (T008-T012) - COMPLETE |
+| US2 (NPM) Tasks | 3 (T013-T015) - COMPLETE |
+| US4 (Traefik) Tasks | 2 (T016-T017) - COMPLETE |
+| US3 (Multi-Client) Tasks | 5 (T018-T022) - COMPLETE |
+| Polish Tasks | 5 (T023-T027) - COMPLETE | |
 
 **Parallel Execution Opportunities**:
 - Docker (T008-T012) can run after foundational (T005-T007)

@@ -1,5 +1,7 @@
 import { AlkemioClient, createConfigUsingEnvVars, AlkemioClientConfig } from '@alkemio/client-lib';
 import dotenv from 'dotenv';
+import { traceGraphQLOperation, traceMCPTool, getTracer } from '../utils/otel.js';
+import { logger, logToolExecution } from '../utils/logger.js';
 
 export class AlkemioService {
   private client: AlkemioClient;
@@ -10,34 +12,45 @@ export class AlkemioService {
   constructor(config?: AlkemioClientConfig) {
     // Load environment variables
     dotenv.config();
-    
+
     // Use provided config or create from environment variables
     this.clientConfig = config || createConfigUsingEnvVars(); // Store clientConfig
-    
+
     this.client = new AlkemioClient(this.clientConfig);
+
+    logger.info('AlkemioService initialized', {
+      endpoint: this.clientConfig.apiEndpointPrivateGraphql,
+    });
   }
 
   /**
    * Initialize authentication with the Alkemio platform
    */
   async initialize(): Promise<void> {
-    try {
-      console.log('🔐 Authenticating with Alkemio platform...');
-      
-      // Enable authentication
-      await this.client.enableAuthentication();
-      this.apiToken = this.client.apiToken; // Store the API token
-      
-      // Validate the connection
-      const serverVersion = await this.client.validateConnection();
-      
-      this.isAuthenticated = true;
-      console.log(`✅ Successfully connected to Alkemio platform (version: ${serverVersion})`);
-      
-    } catch (error) {
-      console.error('❌ Failed to authenticate with Alkemio platform:', error);
-      throw new Error(`Alkemio authentication failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
-    }
+    await traceMCPTool(
+      'alkemio.initialize',
+      { action: 'authenticate' },
+      async () => {
+        try {
+          logToolExecution('AlkemioService', 'initialize', { action: 'authenticate' });
+          logger.info('Authenticating with Alkemio platform...');
+
+          // Enable authentication
+          await this.client.enableAuthentication();
+          this.apiToken = this.client.apiToken; // Store the API token
+
+          // Validate the connection
+          const serverVersion = await this.client.validateConnection();
+
+          this.isAuthenticated = true;
+          logger.info('Successfully connected to Alkemio platform', { serverVersion });
+
+        } catch (error) {
+          logger.error('Failed to authenticate with Alkemio platform', error as Error);
+          throw new Error(`Alkemio authentication failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        }
+      }
+    );
   }
 
   /**
