@@ -93,25 +93,88 @@ The server is built using:
 4. MCP server becomes ready to serve tool and resource requests
 5. All subsequent API calls use the authenticated session
 
-## Tools and Resources
+## Available Tools
 
-*Coming soon - tools and resources for Spaces, Contributors, Posts, and more*
+The server exposes the following MCP tools for interacting with the Alkemio platform:
+
+### Query Tools (Read Operations)
+
+| Tool Name | Description | Input |
+|-----------|-------------|-------|
+| `alkemio.accounts.listAccounts` | List all Alkemio accounts on the platform | None |
+| `alkemio.spaces.listSpaces` | List all accessible Alkemio spaces | None |
+| `alkemio.spaces.getSpace` | Get a specific space by ID | `{ ID: string }` |
+| `alkemio.spaces.exploreSpaces` | Explore active spaces ordered by activity | `{ limit?, shuffle? }` |
+| `alkemio.organizations.listOrganizations` | List all organizations | `{ limit?, shuffle? }` |
+| `alkemio.organizations.getOrganization` | Get a specific organization by ID | `{ ID: string }` |
+| `alkemio.users.listUsers` | List all users | `{ limit?, shuffle?, IDs? }` |
+| `alkemio.users.getUser` | Get a specific user by ID | `{ ID: string }` |
+| `alkemio.users.getCurrentUser` | Get current authenticated user info | None |
+| `alkemio.activity.getActivityFeed` | Get the activity feed | `{ first?, last?, after?, before?, types?, spaceIds?, myActivity? }` |
+| `alkemio.lookup.lookupEntities` | Lookup entities by their IDs | `{ spaceId?, accountId?, organizationId?, userId?, postId?, whiteboardId?, calloutId? }` |
+
+### Mutation Tools (Write Operations)
+
+#### Space Operations
+
+| Tool Name | Description | Input |
+|-----------|-------------|-------|
+| `alkemio.spaces.createSpace` | Create a new space | `{ accountID, displayName, nameID?, description?, tagline?, tags?, why?, who?, licensePlanID? }` |
+| `alkemio.spaces.updateSpace` | Update an existing space | `{ ID, displayName?, description?, tagline?, why?, who? }` |
+| `alkemio.spaces.deleteSpace` | Delete a space | `{ ID: string }` |
+
+#### Post Operations
+
+| Tool Name | Description | Input |
+|-----------|-------------|-------|
+| `alkemio.posts.createPost` | Create a new post on a callout | `{ calloutID, displayName, description?, nameID?, tags? }` |
+| `alkemio.posts.updatePost` | Update an existing post | `{ ID, displayName?, description?, nameID? }` |
+| `alkemio.posts.deletePost` | Delete a post | `{ ID: string }` |
+
+#### Whiteboard Operations
+
+| Tool Name | Description | Input |
+|-----------|-------------|-------|
+| `alkemio.whiteboards.createWhiteboard` | Create a new whiteboard on a callout | `{ calloutID, displayName, description?, nameID?, content? }` |
+| `alkemio.whiteboards.updateWhiteboard` | Update an existing whiteboard | `{ ID, displayName?, description?, content?, contentUpdatePolicy? }` |
+| `alkemio.whiteboards.deleteWhiteboard` | Delete a whiteboard | `{ ID: string }` |
+
+### Admin Tools
+
+| Tool Name | Description | Input |
+|-----------|-------------|-------|
+| `alkemio.admin.addIframeUrl` | Add an iframe URL to allowed list | `{ whitelistedURL: string }` |
+| `alkemio.admin.deleteUserAccount` | Delete a user's Kratos account | `{ userID: string }` |
+| `alkemio.admin.backfillAuthenticationIDs` | Backfill auth IDs from Kratos | None |
+| `alkemio.admin.ensureCommunicationsAccess` | Ensure community members have communications access | `{ communityID: string }` |
+| `alkemio.admin.deleteKratosIdentity` | Delete a Kratos identity | `{ kratosIdentityId: string }` |
+| `alkemio.admin.pruneNotifications` | Prune in-app notifications | None |
+| `alkemio.admin.updateContributorAvatars` | Update contributor avatars | `{ profileID: string }` |
+| `alkemio.admin.updateGeoLocationData` | Update geo location data | None |
+| `alkemio.admin.addNotificationEmailToBlacklist` | Add email to notification blacklist | `{ email: string }` |
 
 ## Project Structure
 
 ```
 server-api-mcp/
 ├── src/
-│   ├── tools/        # MCP Tools
-│   │   └── ExampleTool.ts
-│   └── index.ts      # Server entry point
+│   ├── index.ts           # Server entry point
+│   ├── services/          # Services
+│   │   └── AlkemioService.ts  # Authentication and GraphQL client
+│   ├── tools/             # MCP Tools (30+ tools)
+│   │   ├── ListSpacesTool.ts
+│   │   ├── GetSpaceTool.ts
+│   │   ├── CreateSpaceTool.ts
+│   │   └── ...
+│   └── resources/         # MCP Resources
+├── specs/                 # Specification documents
 ├── package.json
 └── tsconfig.json
 ```
 
 ## Adding Components
 
-The project comes with an example tool in `src/tools/ExampleTool.ts`. You can add more tools using the CLI:
+You can add more tools using the CLI:
 
 ```bash
 # Add a new tool
