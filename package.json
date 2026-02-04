@@ -1,18 +1,22 @@
 {
-  "name": "server-api-mcp",
-  "version": "0.0.1",
-  "description": "server-api-mcp MCP server",
+  "name": "alkemio-mcp-server",
+  "version": "0.1.0",
+  "description": "Alkemio MCP Server - exposes Alkemio GraphQL API as MCP tools",
   "type": "module",
   "bin": {
-    "server-api-mcp": "./dist/index.js"
+    "alkemio-mcp": "./dist/index.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "schema.graphql"
   ],
+  "main": "./dist/index.js",
   "scripts": {
     "build": "tsc && mcp-build",
     "watch": "tsc --watch",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "@alkemio/client-lib": "^0.35.0",
@@ -23,6 +27,9 @@
   },
   "devDependencies": {
     "@types/node": "^20.11.24",
+    "@types/jest": "^29.5.12",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
     "typescript": "^5.3.3"
   },
   "engines": {

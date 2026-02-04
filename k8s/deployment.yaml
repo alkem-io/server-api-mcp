@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alkemio-mcp-server
+  labels:
+    app: alkemio-mcp-server
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: alkemio-mcp-server
+  template:
+    metadata:
+      labels:
+        app: alkemio-mcp-server
+    spec:
+      containers:
+        - name: mcp-server
+          image: alkemio-mcp:latest
+          ports:
+            - containerPort: 1339
+              name: http-mcp
+          env:
+            - name: MCP_SERVER_PORT
+              value: "1339"
+            - name: API_ENDPOINT_PRIVATE_GRAPHQL
+              valueFrom:
+                secretKeyRef:
+                  name: alkemio-mcp-secrets
+                  key: API_ENDPOINT_PRIVATE_GRAPHQL
+            - name: AUTH_ADMIN_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: alkemio-mcp-secrets
+                  key: AUTH_ADMIN_EMAIL
+            - name: AUTH_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: alkemio-mcp-secrets
+                  key: AUTH_ADMIN_PASSWORD
+            - name: AUTH_ORY_KRATOS_PUBLIC_BASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: alkemio-mcp-secrets
+                  key: AUTH_ORY_KRATOS_PUBLIC_BASE_URL
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 1339
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 1339
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"

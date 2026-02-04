@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: alkemio-mcp-server
+  labels:
+    app: alkemio-mcp-server
+  annotations:
+    traefik.io/service.nativelb: "false"
+spec:
+  type: ClusterIP
+  ports:
+    - name: http-mcp
+      port: 1339
+      targetPort: 1339
+  selector:
+    app: alkemio-mcp-server
