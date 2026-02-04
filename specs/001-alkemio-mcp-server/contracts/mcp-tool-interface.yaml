@@ -1,0 +1,96 @@
+# MCP Tool Contracts
+
+## Tool Interface Specification
+
+Each MCP tool MUST follow this interface:
+
+```typescript
+interface MCPTool<TInput> {
+  name: string;           // kebab-case identifier
+  description: string;   // human-readable purpose
+  schema: z.ZodSchema<TInput>;  // input validation
+  execute(input: TInput, context?: FrameworkContext): Promise<Output>;
+}
+```
+
+## Query Tools (from schema.graphql)
+
+| Tool Name | GraphQL Operation | Input Schema | Output Type |
+|-----------|-------------------|--------------|-------------|
+| `list-accounts` | `accounts` | `{}` | `Account[]` |
+| `activity-feed` | `activityFeed` | `{ after?, args?, before?, first?, last? }` | `ActivityFeed` |
+| `activity-feed-grouped` | `activityFeedGrouped` | `{ args: ActivityFeedGroupedQueryArgs }` | `ActivityLogEntry[]` |
+| `activity-log-on-collaboration` | `activityLogOnCollaboration` | `{ queryData: ActivityLogInput }` | `ActivityLogEntry[]` |
+| `explore-spaces` | `exploreSpaces` | `{ options?: ExploreSpacesInput }` | `Space[]` |
+| `lookup-entities` | `lookup` | `{}` | `LookupQueryResults` |
+| `lookup-by-name` | `lookupByName` | `{}` | `LookupByNameQueryResults` |
+| `get-current-user` | `me` | `{}` | `MeQueryResults` |
+| `get-organization` | `organization` | `{ ID: UUID }` | `Organization` |
+| `list-organizations` | `organizations` | `{ filter?, limit?, random? }` | `Organization[]` |
+| `get-space` | `space` | `{ ID: UUID! }` | `Space` |
+| `list-spaces` | `spaces` | `{ filter?, limit?, ids?, my? }` | `Space[]` |
+| `get-user` | `user` | `{ ID: UUID! }` | `User` |
+| `list-users` | `users` | `{ filter?, limit?, ids? }` | `User[]` |
+
+## Mutation Tools (from schema.graphql)
+
+| Tool Name | GraphQL Operation | Input Schema | Output Type |
+|-----------|-------------------|--------------|-------------|
+| `add-iframe-url` | `addIframeAllowedURL` | `{ whitelistedURL: string }` | `string[]` |
+| `add-notification-email-blacklist` | `addNotificationEmailToBlacklist` | `{ input: NotificationEmailAddressInput }` | `string[]` |
+| `admin-backfill-auth-ids` | `adminBackfillAuthenticationIDs` | `{}` | `AdminAuthenticationIDBackfillResult` |
+| `admin-ensure-communications-access` | `adminCommunicationEnsureAccessToCommunications` | `{ communicationData: CommunicationAdminEnsureAccessInput }` | `boolean` |
+| `admin-delete-kratos-identity` | `adminIdentityDeleteKratosIdentity` | `{ kratosIdentityId: UUID }` | `boolean` |
+| `admin-prune-notifications` | `adminInAppNotificationsPrune` | `{}` | `PruneInAppNotificationAdminResult` |
+| `admin-update-contributor-avatars` | `adminUpdateContributorAvatars` | `{ profileID: UUID }` | `Profile` |
+| `admin-update-geo-location` | `adminUpdateGeoLocationData` | `{}` | `boolean` |
+| `admin-delete-user-account` | `adminUserAccountDelete` | `{ userID: UUID }` | `User` |
+| `create-space` | `createSpace` | `{ profileData: CreateProfileInput, collaborationData?, contextData?, spaceData: CreateSpaceInput }` | `Space` |
+| `update-space` | `updateSpace` | `{ ID: UUID!, profileData?, contextData?, updateData: UpdateSpaceInput }` | `Space` |
+| `delete-space` | `deleteSpace` | `{ ID: UUID! }` | `Space` |
+| `create-post` | `createPost` | `{ profileData?, postData: CreatePostInput }` | `Post` |
+| `update-post` | `updatePost` | `{ ID: UUID!, postData?, profileData? }` | `Post` |
+| `delete-post` | `deletePost` | `{ ID: UUID! }` | `Post` |
+| `create-whiteboard` | `createWhiteboard` | `{ profileData?, contentData?, whiteboardData: CreateWhiteboardInput }` | `Whiteboard` |
+| `update-whiteboard` | `updateWhiteboard` | `{ ID: UUID!, contentData?, profileData? }` | `Whiteboard` |
+| `delete-whiteboard` | `deleteWhiteboard` | `{ ID: UUID! }` | `Whiteboard` |
+
+## Input Type Schemas
+
+For complex inputs, tools MUST use Zod schemas that match GraphQL input types:
+
+```typescript
+// Example: Space creation input
+const CreateSpaceInputSchema = z.object({
+  profileData: z.object({
+    displayName: z.string().min(1).max(100),
+    tagline: z.string().max(500).optional(),
+    description: z.string().optional(),
+  }).optional(),
+  collaborationData: z.object({
+    communityPolicy: z.enum(['OPEN', 'MEMBERS_ONLY', 'PRIVATE']).optional(),
+    leadOrganizations: z.array(z.string()).optional(),
+    memberOrganizations: z.array(z.string()).optional(),
+  }).optional(),
+  contextData: z.object({
+    vision: z.string().optional(),
+    who: z.string().optional(),
+    impact: z.string().optional(),
+  }).optional(),
+  spaceData: z.object({
+    nameID: z.string().regex(/^[a-z0-9-]+$/),
+    type: z.enum(['CHALLENGE', 'OPPORTUNITY', 'SPACE']).optional(),
+  }),
+});
+```
+
+## Error Contracts
+
+All tools MUST handle these error types:
+
+| Error Code | Condition | Response |
+|------------|-----------|----------|
+| `AUTH_ERROR` | Invalid/expired token | `{ error: "Authentication required" }` |
+| `GRAPHQL_ERROR` | GraphQL execution error | `{ errors: [...] }` from API |
+| `VALIDATION_ERROR` | Invalid input schema | `{ error: "Invalid input: <details>" }` |
+| `NETWORK_ERROR` | API unreachable | `{ error: "Connection failed" }` |
