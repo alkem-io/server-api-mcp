@@ -1,0 +1,95 @@
+# NPM Package Contract
+
+## package.json Configuration
+
+```json
+{
+  "name": "alkemio-mcp-server",
+  "version": "0.1.0",
+  "description": "Alkemio MCP Server - Model Context Protocol server for Alkemio GraphQL API",
+  "type": "module",
+  "bin": {
+    "alkemio-mcp": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "files": [
+    "dist",
+    "schema.graphql"
+  ],
+  "scripts": {
+    "build": "tsc && mcp-build",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "mcp-framework": "^0.2.13",
+    "graphql-request": "^6.1.0",
+    "graphql": "^16.8.1",
+    "dotenv": "^16.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.19.0"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "alkemio",
+    "graphql",
+    "ai"
+  ],
+  "author": "Alkemio Contributors",
+  "license": "EUPL-1.2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alkem-io/server-api-mcp.git"
+  }
+}
+```
+
+## .npmignore Configuration
+
+```
+# Exclude from published package
+src/
+tests/
+*.ts
+tsconfig.json
+.eslintrc*
+.git/
+.github/
+.gitignore
+README.md
+node_modules/
+
+# Include in published package
+!dist/
+!node_modules/
+schema.graphql
+package.json
+```
+
+## Installation
+
+```bash
+# Global install
+npm install -g alkemio-mcp-server
+
+# Run server
+alkemio-mcp
+
+# Or via npx (no install required)
+npx alkemio-mcp
+```
+
+## Peer Dependencies
+
+None required - all dependencies bundled in package.
+
+## Requirements
+
+- Node.js version >= 18.19.0
+- NPM version >= 10.0.0

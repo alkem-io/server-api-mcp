@@ -1,0 +1,37 @@
+# Source code
+src/
+tests/
+*.ts
+!tsconfig.json
+
+# IDE
+.vscode/
+.idea/
+
+# Git
+.git/
+.gitignore
+.github/
+.gitlab-ci*
+.circleci*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs and temp
+*.log
+npm-debug.log*
+logs/
+tmp/
+.temp/
+
+# Docker
+Dockerfile*
+docker-compose*
+
+# Documentation
+docs/
+README.md
+specs/
+k8s/

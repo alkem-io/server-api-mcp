@@ -62,6 +62,8 @@ Uses HTTP streaming transport for web-accessible MCP endpoints. Configure CORS v
 ## Active Technologies
 - Node.js + TypeScript (existing codebase uses node_modules) + mcp-framework, graphql-request, direct Kratos HTTP (001-alkemio-mcp-server)
 - N/A (stateless MCP server) (001-alkemio-mcp-server)
+- Node.js 22.x (>=18.19.0 required) | TypeScript 5.3 + mcp-framework 0.2.13, graphql-request 6.1, @alkemio/client-lib 0.35, dotenv 16.5 (002-deploy-mcp-package)
+- N/A (stateless MCP server - no persistent storage required) (002-deploy-mcp-package)
 
 ## Recent Changes
 - 002-constitution-amendment: Removed bun/elysia/eden/biome requirements. Changed authentication from @alkemio/client-lib to direct Kratos HTTP. Mandated mcp-framework usage.

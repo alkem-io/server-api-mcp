@@ -1,5 +1,5 @@
 import { MCPServer } from "mcp-framework";
-import { getAlkemioService } from "./services/AlkemioService.js";
+import { getKratosAuthService } from "./services/KratosAuth.js";
 import dotenv from 'dotenv';
 
 // Load environment variables
@@ -22,25 +22,25 @@ const server = new MCPServer({
   // if tools are correctly exported from their files.
 });
 
-// Initialize Alkemio authentication before starting the server
+// Initialize Kratos authentication before starting the server
 async function initializeServer() {
   try {
     console.log('🚀 Starting Alkemio MCP Server...');
     console.log(`📡 Server will listen on port ${MCP_SERVER_PORT}`);
-    
-    // Initialize Alkemio authentication
-    const alkemioService = getAlkemioService();
-    await alkemioService.initialize();
-    
-    // Test basic functionality
-    console.log('🧪 Testing Alkemio connectivity...');
-    const hasAccess = await alkemioService.testSpaceAccess();
-    console.log(`📊 Sample space access test: ${hasAccess ? 'PASS' : 'SKIP'}`);
-    
+
+    // Initialize Kratos authentication (per Constitution III)
+    const kratosAuth = getKratosAuthService();
+    await kratosAuth.authenticate();
+
+    // Test GraphQL connectivity
+    console.log('🧪 Testing Alkemio GraphQL connectivity...');
+    const graphqlClient = kratosAuth.getGraphQLClient();
+    // Basic connectivity test would go here
+
     // Start the MCP server
     await server.start();
     console.log(`✅ Alkemio MCP Server is running on http://localhost:${MCP_SERVER_PORT}`);
-    
+
   } catch (error) {
     console.error('💥 Failed to start server:', error);
     process.exit(1);
