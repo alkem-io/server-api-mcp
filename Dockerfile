@@ -1,15 +1,16 @@
 # syntax=docker/dockerfile:1.4
 # Stage 1: Build
-FROM node:20-slim AS builder
+FROM --platform=linux/amd64 node:22-slim AS builder
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm ci
 COPY tsconfig.json ./
 COPY src ./src
+COPY schema.graphql ./
 RUN npm run build
 
 # Stage 2: Runtime
-FROM node:20-slim AS runtime
+FROM --platform=linux/amd64 node:22-slim AS runtime
 WORKDIR /app
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
