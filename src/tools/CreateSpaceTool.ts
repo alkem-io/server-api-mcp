@@ -53,7 +53,7 @@ class CreateSpaceTool extends MCPTool<CreateSpaceInput> {
       description: "A short memorable tagline for the Space",
     },
     tags: {
-      type: z.array(z.string()).optional(),
+      type: z.array(z.string().min(1)).optional(),
       description: "Tags to associate with the Space",
     },
     why: {

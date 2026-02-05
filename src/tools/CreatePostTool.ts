@@ -46,7 +46,7 @@ class CreatePostTool extends MCPTool<CreatePostInput> {
       description: "A readable identifier (lowercase, numbers, hyphens only)",
     },
     tags: {
-      type: z.array(z.string()).optional(),
+      type: z.array(z.string().min(1)).optional(),
       description: "Tags to associate with the Post",
     },
   };

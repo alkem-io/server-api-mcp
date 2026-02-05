@@ -61,11 +61,11 @@ class ActivityFeedTool extends MCPTool<ActivityFeedInput> {
       description: "Cursor before which to fetch items",
     },
     types: {
-      type: z.array(z.string()).optional(),
+      type: z.array(z.string().min(1)).optional(),
       description: "Filter by activity event types",
     },
     spaceIds: {
-      type: z.array(z.string()).optional(),
+      type: z.array(z.string().min(1)).optional(),
       description: "Filter by space IDs",
     },
     myActivity: {
