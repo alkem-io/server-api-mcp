@@ -6,7 +6,7 @@ import { getAlkemioService } from "../services/AlkemioService.js";
 interface ListUsersInput {
   limit?: number;
   shuffle?: boolean;
-  IDs?: string[];
+  IDs?: string;
 }
 
 interface AlkemioUser {
@@ -38,8 +38,8 @@ class ListUsersTool extends MCPTool<ListUsersInput> {
       description: "If true and limit is specified, return a random selection",
     },
     IDs: {
-      type: z.array(z.string().uuid()).optional(),
-      description: "Specific user IDs to retrieve",
+      type: z.string().optional(),
+      description: "Comma-separated user UUIDs to retrieve",
     },
   };
 
@@ -79,10 +79,14 @@ class ListUsersTool extends MCPTool<ListUsersInput> {
         },
       });
 
+      const IDs = input.IDs
+        ? input.IDs.split(',').map((id: string) => id.trim()).filter((id: string) => id)
+        : undefined;
+
       const responseData = await graphQLClient.request<ListUsersResponse>(query, {
         limit: input.limit,
         shuffle: input.shuffle,
-        IDs: input.IDs,
+        IDs,
       });
 
       return responseData.users.map((user: AlkemioUser) => ({

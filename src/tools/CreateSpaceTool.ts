@@ -9,7 +9,7 @@ interface CreateSpaceInput {
   nameID?: string;
   description?: string;
   tagline?: string;
-  tags?: string[];
+  tags?: string;
   why?: string;
   who?: string;
   licensePlanID?: string;
@@ -53,8 +53,8 @@ class CreateSpaceTool extends MCPTool<CreateSpaceInput> {
       description: "A short memorable tagline for the Space",
     },
     tags: {
-      type: z.array(z.string().min(1)).optional(),
-      description: "Tags to associate with the Space",
+      type: z.string().optional(),
+      description: "Comma-separated tags to associate with the Space",
     },
     why: {
       type: z.string().optional(),
@@ -105,6 +105,10 @@ class CreateSpaceTool extends MCPTool<CreateSpaceInput> {
         },
       });
 
+      const tags = input.tags
+        ? input.tags.split(',').map((t: string) => t.trim()).filter((t: string) => t)
+        : undefined;
+
       const spaceData: any = {
         accountID: input.accountID,
         about: {
@@ -112,7 +116,7 @@ class CreateSpaceTool extends MCPTool<CreateSpaceInput> {
             displayName: input.displayName,
             description: input.description,
             tagline: input.tagline,
-            tags: input.tags,
+            tags,
           },
           why: input.why,
           who: input.who,

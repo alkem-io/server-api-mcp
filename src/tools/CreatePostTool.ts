@@ -8,7 +8,7 @@ interface CreatePostInput {
   displayName: string;
   description?: string;
   nameID?: string;
-  tags?: string[];
+  tags?: string;
 }
 
 interface CreatePostResponse {
@@ -46,8 +46,8 @@ class CreatePostTool extends MCPTool<CreatePostInput> {
       description: "A readable identifier (lowercase, numbers, hyphens only)",
     },
     tags: {
-      type: z.array(z.string().min(1)).optional(),
-      description: "Tags to associate with the Post",
+      type: z.string().optional(),
+      description: "Comma-separated tags to associate with the Post",
     },
   };
 
@@ -99,7 +99,7 @@ class CreatePostTool extends MCPTool<CreatePostInput> {
       }
 
       if (input.tags) {
-        postData.tags = input.tags;
+        postData.tags = input.tags.split(',').map((t: string) => t.trim()).filter((t: string) => t);
       }
 
       const contributionData = {

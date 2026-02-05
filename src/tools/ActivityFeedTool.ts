@@ -8,8 +8,8 @@ interface ActivityFeedInput {
   last?: number;
   after?: string;
   before?: string;
-  types?: string[];
-  spaceIds?: string[];
+  types?: string;
+  spaceIds?: string;
   myActivity?: boolean;
 }
 
@@ -61,12 +61,12 @@ class ActivityFeedTool extends MCPTool<ActivityFeedInput> {
       description: "Cursor before which to fetch items",
     },
     types: {
-      type: z.array(z.string().min(1)).optional(),
-      description: "Filter by activity event types",
+      type: z.string().optional(),
+      description: "Comma-separated activity event types to filter by",
     },
     spaceIds: {
-      type: z.array(z.string().min(1)).optional(),
-      description: "Filter by space IDs",
+      type: z.string().optional(),
+      description: "Comma-separated space IDs to filter by",
     },
     myActivity: {
       type: z.boolean().optional(),
@@ -134,8 +134,12 @@ class ActivityFeedTool extends MCPTool<ActivityFeedInput> {
       });
 
       const args: any = {};
-      if (input.types) args.types = input.types;
-      if (input.spaceIds) args.spaceIds = input.spaceIds;
+      if (input.types) {
+        args.types = input.types.split(',').map((t: string) => t.trim()).filter((t: string) => t);
+      }
+      if (input.spaceIds) {
+        args.spaceIds = input.spaceIds.split(',').map((t: string) => t.trim()).filter((t: string) => t);
+      }
       if (input.myActivity !== undefined) args.myActivity = input.myActivity;
 
       const responseData = await graphQLClient.request<ActivityFeedResponse>(query, {
