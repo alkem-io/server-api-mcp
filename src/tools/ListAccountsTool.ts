@@ -22,7 +22,7 @@ interface ListAccountsResponse {
 }
 
 class ListAccountsTool extends MCPTool<ListAccountsInput> {
-  name = "alkemio.accounts.listAccounts";
+  name = "alkemio_accounts_list";
   description = "Retrieves a list of all Alkemio Accounts on the platform.";
 
   schema = {};

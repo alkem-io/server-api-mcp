@@ -32,7 +32,7 @@ interface MeResponse {
 }
 
 class GetCurrentUserTool extends MCPTool<GetCurrentUserInput> {
-  name = "alkemio.users.getCurrentUser";
+  name = "alkemio_users_getCurrent";
   description = "Retrieves information about the currently authenticated user.";
 
   schema = {};

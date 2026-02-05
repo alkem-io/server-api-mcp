@@ -25,7 +25,7 @@ interface UpdateSpaceResponse {
 }
 
 class UpdateSpaceTool extends MCPTool<UpdateSpaceInput> {
-  name = "alkemio.spaces.updateSpace";
+  name = "alkemio_spaces_update";
   description = "Updates an existing Alkemio Space.";
 
   schema = {

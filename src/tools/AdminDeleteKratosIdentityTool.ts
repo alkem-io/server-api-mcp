@@ -12,7 +12,7 @@ interface AdminDeleteKratosIdentityResponse {
 }
 
 class AdminDeleteKratosIdentityTool extends MCPTool<AdminDeleteKratosIdentityInput> {
-  name = "alkemio.admin.deleteKratosIdentity";
+  name = "alkemio_admin_deleteKratosIdentity";
   description = "Deletes a Kratos identity by its ID.";
 
   schema = {

@@ -25,7 +25,7 @@ interface CreateWhiteboardResponse {
 }
 
 class CreateWhiteboardTool extends MCPTool<CreateWhiteboardInput> {
-  name = "alkemio.whiteboards.createWhiteboard";
+  name = "alkemio_whiteboards_create";
   description = "Creates a new Whiteboard as a contribution on a Callout.";
 
   schema = {

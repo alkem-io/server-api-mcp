@@ -23,7 +23,7 @@ interface ListOrganizationsResponse {
 }
 
 class ListOrganizationsTool extends MCPTool<ListOrganizationsInput> {
-  name = "alkemio.organizations.listOrganizations";
+  name = "alkemio_organizations_list";
   description = "Retrieves a list of Alkemio Organizations on the platform.";
 
   schema = {

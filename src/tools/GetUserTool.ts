@@ -29,7 +29,7 @@ interface GetUserResponse {
 }
 
 class GetUserTool extends MCPTool<GetUserInput> {
-  name = "alkemio.users.getUser";
+  name = "alkemio_users_get";
   description = "Retrieves a specific Alkemio User by their ID.";
 
   schema = {

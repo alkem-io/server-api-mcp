@@ -12,7 +12,7 @@ interface AdminPruneNotificationsResponse {
 }
 
 class AdminPruneNotificationsTool extends MCPTool<AdminPruneNotificationsInput> {
-  name = "alkemio.admin.pruneNotifications";
+  name = "alkemio_admin_pruneNotifications";
   description = "Prunes InAppNotifications according to the platform defined criteria.";
 
   schema = {};

@@ -12,7 +12,7 @@ interface AddNotificationEmailBlacklistResponse {
 }
 
 class AddNotificationEmailBlacklistTool extends MCPTool<AddNotificationEmailBlacklistInput> {
-  name = "alkemio.admin.addNotificationEmailToBlacklist";
+  name = "alkemio_admin_addNotificationEmailToBlacklist";
   description = "Adds a full email address to the platform notification blacklist.";
 
   schema = {

@@ -25,7 +25,7 @@ interface ListUsersResponse {
 }
 
 class ListUsersTool extends MCPTool<ListUsersInput> {
-  name = "alkemio.users.listUsers";
+  name = "alkemio_users_list";
   description = "Retrieves a list of Alkemio Users on the platform.";
 
   schema = {

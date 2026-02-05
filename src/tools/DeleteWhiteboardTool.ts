@@ -15,7 +15,7 @@ interface DeleteWhiteboardResponse {
 }
 
 class DeleteWhiteboardTool extends MCPTool<DeleteWhiteboardInput> {
-  name = "alkemio.whiteboards.deleteWhiteboard";
+  name = "alkemio_whiteboards_delete";
   description = "Deletes an existing Alkemio Whiteboard by its ID.";
 
   schema = {

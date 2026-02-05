@@ -22,7 +22,7 @@ interface UpdateWhiteboardResponse {
 }
 
 class UpdateWhiteboardTool extends MCPTool<UpdateWhiteboardInput> {
-  name = "alkemio.whiteboards.updateWhiteboard";
+  name = "alkemio_whiteboards_update";
   description = "Updates an existing Alkemio Whiteboard.";
 
   schema = {

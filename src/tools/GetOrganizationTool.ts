@@ -27,7 +27,7 @@ interface GetOrganizationResponse {
 }
 
 class GetOrganizationTool extends MCPTool<GetOrganizationInput> {
-  name = "alkemio.organizations.getOrganization";
+  name = "alkemio_organizations_get";
   description = "Retrieves a specific Alkemio Organization by its ID.";
 
   schema = {

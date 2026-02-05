@@ -21,7 +21,7 @@ interface UpdatePostResponse {
 }
 
 class UpdatePostTool extends MCPTool<UpdatePostInput> {
-  name = "alkemio.posts.updatePost";
+  name = "alkemio_posts_update";
   description = "Updates an existing Alkemio Post.";
 
   schema = {

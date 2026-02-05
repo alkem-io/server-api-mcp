@@ -25,7 +25,7 @@ interface LookupResponse {
 }
 
 class LookupEntitiesTool extends MCPTool<LookupEntitiesInput> {
-  name = "alkemio.lookup.lookupEntities";
+  name = "alkemio_lookup_entities";
   description = "Lookup specific entities by their IDs. Provide at least one entity ID to look up.";
 
   schema = {

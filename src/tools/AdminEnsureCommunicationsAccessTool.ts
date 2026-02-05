@@ -12,7 +12,7 @@ interface AdminEnsureCommunicationsAccessResponse {
 }
 
 class AdminEnsureCommunicationsAccessTool extends MCPTool<AdminEnsureCommunicationsAccessInput> {
-  name = "alkemio.admin.ensureCommunicationsAccess";
+  name = "alkemio_admin_ensureCommunicationsAccess";
   description = "Ensures all community members are registered for communications.";
 
   schema = {

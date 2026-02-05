@@ -10,7 +10,7 @@ interface AdminUpdateGeoLocationResponse {
 }
 
 class AdminUpdateGeoLocationTool extends MCPTool<AdminUpdateGeoLocationInput> {
-  name = "alkemio.admin.updateGeoLocationData";
+  name = "alkemio_admin_updateGeoLocationData";
   description = "Updates the GeoLocation data where required on the platform.";
 
   schema = {};

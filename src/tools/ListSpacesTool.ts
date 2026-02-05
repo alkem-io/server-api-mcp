@@ -26,7 +26,7 @@ interface ListSpacesResponse {
 interface ListSpacesInput {}
 
 class ListSpacesTool extends MCPTool<ListSpacesInput> {
-  name = "alkemio.spaces.listSpaces";
+  name = "alkemio_spaces_list";
   description = "Retrieves a list of Alkemio Spaces accessible to the authenticated user.";
 
   // No input schema needed for this specific tool, but the framework might require an empty object

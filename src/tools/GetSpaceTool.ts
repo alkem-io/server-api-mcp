@@ -31,7 +31,7 @@ interface GetSpaceResponse {
 }
 
 class GetSpaceTool extends MCPTool<GetSpaceInput> {
-  name = "alkemio.spaces.getSpace";
+  name = "alkemio_spaces_get";
   description = "Retrieves a specific Alkemio Space by its ID.";
 
   schema = {

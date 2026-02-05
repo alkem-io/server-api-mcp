@@ -12,7 +12,7 @@ interface AdminBackfillAuthIdsResponse {
 }
 
 class AdminBackfillAuthIdsTool extends MCPTool<AdminBackfillAuthIdsInput> {
-  name = "alkemio.admin.backfillAuthenticationIDs";
+  name = "alkemio_admin_backfillAuthenticationIDs";
   description = "Populates authenticationID for existing users by querying Kratos Admin API.";
 
   schema = {};

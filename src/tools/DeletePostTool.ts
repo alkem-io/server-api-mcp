@@ -15,7 +15,7 @@ interface DeletePostResponse {
 }
 
 class DeletePostTool extends MCPTool<DeletePostInput> {
-  name = "alkemio.posts.deletePost";
+  name = "alkemio_posts_delete";
   description = "Deletes an existing Alkemio Post by its ID.";
 
   schema = {

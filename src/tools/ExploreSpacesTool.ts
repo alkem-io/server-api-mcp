@@ -26,7 +26,7 @@ interface ExploreSpacesResponse {
 }
 
 class ExploreSpacesTool extends MCPTool<ExploreSpacesInput> {
-  name = "alkemio.spaces.exploreSpaces";
+  name = "alkemio_spaces_explore";
   description = "Explores active Spaces, ordered by activity in the past X days.";
 
   schema = {

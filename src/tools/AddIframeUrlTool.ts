@@ -12,7 +12,7 @@ interface AddIframeUrlResponse {
 }
 
 class AddIframeUrlTool extends MCPTool<AddIframeUrlInput> {
-  name = "alkemio.admin.addIframeUrl";
+  name = "alkemio_admin_addIframeUrl";
   description = "Adds an Iframe Allowed URL to the Platform Settings.";
 
   schema = {

@@ -15,7 +15,7 @@ interface AdminUpdateContributorAvatarsResponse {
 }
 
 class AdminUpdateContributorAvatarsTool extends MCPTool<AdminUpdateContributorAvatarsInput> {
-  name = "alkemio.admin.updateContributorAvatars";
+  name = "alkemio_admin_updateContributorAvatars";
   description = "Updates the Avatar on the Profile with the specified profileID to be stored as a Document.";
 
   schema = {

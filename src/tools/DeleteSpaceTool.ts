@@ -15,7 +15,7 @@ interface DeleteSpaceResponse {
 }
 
 class DeleteSpaceTool extends MCPTool<DeleteSpaceInput> {
-  name = "alkemio.spaces.deleteSpace";
+  name = "alkemio_spaces_delete";
   description = "Deletes an existing Alkemio Space by its ID.";
 
   schema = {

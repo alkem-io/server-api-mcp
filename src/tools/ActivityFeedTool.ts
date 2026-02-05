@@ -40,7 +40,7 @@ interface ActivityFeedResponse {
 }
 
 class ActivityFeedTool extends MCPTool<ActivityFeedInput> {
-  name = "alkemio.activity.getActivityFeed";
+  name = "alkemio_activity_getFeed";
   description = "Retrieves the activity feed for the current user.";
 
   schema = {

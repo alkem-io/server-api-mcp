@@ -25,7 +25,7 @@ interface CreatePostResponse {
 }
 
 class CreatePostTool extends MCPTool<CreatePostInput> {
-  name = "alkemio.posts.createPost";
+  name = "alkemio_posts_create";
   description = "Creates a new Post as a contribution on a Callout.";
 
   schema = {

@@ -28,7 +28,7 @@ interface CreateSpaceResponse {
 }
 
 class CreateSpaceTool extends MCPTool<CreateSpaceInput> {
-  name = "alkemio.spaces.createSpace";
+  name = "alkemio_spaces_create";
   description = "Creates a new Level Zero Space within the specified Account.";
 
   schema = {

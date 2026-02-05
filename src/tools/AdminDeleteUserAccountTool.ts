@@ -16,7 +16,7 @@ interface AdminDeleteUserAccountResponse {
 }
 
 class AdminDeleteUserAccountTool extends MCPTool<AdminDeleteUserAccountInput> {
-  name = "alkemio.admin.deleteUserAccount";
+  name = "alkemio_admin_deleteUserAccount";
   description = "Removes the Kratos account associated with the specified User. Note: the User's profile on the platform is not deleted.";
 
   schema = {
