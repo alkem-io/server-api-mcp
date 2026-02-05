@@ -100,6 +100,16 @@ export class AlkemioService {
     }
     return await this.client.serverVersion();
   }
+
+  /**
+   * Set authentication from external source (e.g., KratosAuthService)
+   */
+  setExternalAuth(apiToken: string, graphqlEndpoint: string): void {
+    this.apiToken = apiToken;
+    this.clientConfig.apiEndpointPrivateGraphql = graphqlEndpoint;
+    this.isAuthenticated = true;
+    console.log('✅ AlkemioService initialized with external authentication');
+  }
 }
 
 // Singleton instance
@@ -112,5 +122,16 @@ export function getAlkemioService(): AlkemioService {
   if (!alkemioServiceInstance) {
     alkemioServiceInstance = new AlkemioService();
   }
+  return alkemioServiceInstance;
+}
+
+/**
+ * Initialize AlkemioService with external authentication (from KratosAuthService)
+ */
+export function initializeAlkemioServiceWithToken(apiToken: string, graphqlEndpoint: string): AlkemioService {
+  if (!alkemioServiceInstance) {
+    alkemioServiceInstance = new AlkemioService();
+  }
+  alkemioServiceInstance.setExternalAuth(apiToken, graphqlEndpoint);
   return alkemioServiceInstance;
 }

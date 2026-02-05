@@ -1,5 +1,6 @@
 import { MCPServer } from "mcp-framework";
 import { getKratosAuthService } from "./services/KratosAuth.js";
+import { initializeAlkemioServiceWithToken } from "./services/AlkemioService.js";
 import dotenv from 'dotenv';
 
 // Load environment variables
@@ -31,6 +32,15 @@ async function initializeServer() {
     // Initialize Kratos authentication (per Constitution III)
     const kratosAuth = getKratosAuthService();
     await kratosAuth.authenticate();
+
+    // Initialize AlkemioService with the Kratos session token
+    const sessionToken = kratosAuth.getSessionToken();
+    const graphqlEndpoint = process.env.API_ENDPOINT_PRIVATE_GRAPHQL || '';
+    if (sessionToken && graphqlEndpoint) {
+      initializeAlkemioServiceWithToken(sessionToken, graphqlEndpoint);
+    } else {
+      console.warn('⚠️ Could not initialize AlkemioService: missing session token or GraphQL endpoint');
+    }
 
     // Test GraphQL connectivity
     console.log('🧪 Testing Alkemio GraphQL connectivity...');
